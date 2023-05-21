@@ -20,7 +20,10 @@ menu.addMenuEvent((int index, int subIndex) -> {
     }
 });
 ```
-You can modify this code in class "raven.application.form.MainForm.java"
+Modify menu item and submenu item in class [raven.menu.Menu.java](https://github.com/DJ-Raven/java-ui-dashboard-014/blob/003b4b5f49f14280762212c407e496ae43e4a19f/src/raven/menu/Menu.java#L33)</br>
+Modify menu event in class [raven.application.form.MainForm.java](https://github.com/DJ-Raven/java-ui-dashboard-014/blob/003b4b5f49f14280762212c407e496ae43e4a19f/src/raven/application/form/MainForm.java#L53)
+### Menu item size
+
 
 ### Screenshot
 ![2023-05-21_155517](https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/467acdf3-b2f0-48d0-a258-ab9637873a63)
