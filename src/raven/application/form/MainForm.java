@@ -14,7 +14,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import raven.application.Application;
-import raven.application.form.other.DefaultForm;
 import raven.application.form.other.FormInbox;
 import raven.application.form.other.FormRead;
 import raven.menu.Menu;
