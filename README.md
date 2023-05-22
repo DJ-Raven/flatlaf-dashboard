@@ -15,12 +15,15 @@ Application.mainForm.showForm(new PanelForm());
 ```
 ### Menu
 ``` java
-menu.addMenuEvent((int index, int subIndex) -> {
-    if (index == 1) {
-        if (subIndex == 1) {
-            Application.mainForm.showForm(new FormInbox());
-        } else if (subIndex == 2) {
-            Application.mainForm.showForm(new FormRead());
+menu.addMenuEvent(new MenuEvent() {
+    @Override
+    public void menuSelected(int index, int subIndex) {
+        if (index == 1) {
+            if (subIndex == 1) {
+                Application.mainForm.showForm(new FormInbox());
+            } else if (subIndex == 2) {
+                Application.mainForm.showForm(new FormRead());
+            }
         }
     }
 });
