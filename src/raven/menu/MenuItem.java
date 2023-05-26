@@ -123,6 +123,7 @@ public class MenuItem extends JPanel {
         JButton button = new JButton(text);
         button.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Menu.background;"
+                + "foreground:$Menu.foreground;"
                 + "borderWidth:0;"
                 + "focusWidth:0;"
                 + "arc:10;"

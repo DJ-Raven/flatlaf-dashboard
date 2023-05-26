@@ -53,7 +53,8 @@ public class LightDarkMode extends JPanel {
         buttonLighDark = new JButton();
         buttonLighDark.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:999;"
-                + "background:null;"
+                + "background:$Menu.lightdark.button.background;"
+                + "foreground:$Menu.foreground;"
                 + "focusWidth:0;"
                 + "borderWidth:0");
         buttonLighDark.addActionListener((ActionEvent e) -> {
@@ -109,11 +110,15 @@ public class LightDarkMode extends JPanel {
         if (style) {
             button.putClientProperty(FlatClientProperties.STYLE, ""
                     + "arc:999;"
+                    + "background:$Menu.lightdark.button.background;"
+                    + "foreground:$Menu.foreground;"
                     + "focusWidth:0;"
                     + "borderWidth:0");
         } else {
             button.putClientProperty(FlatClientProperties.STYLE, ""
                     + "arc:999;"
+                    + "background:$Menu.lightdark.button.background;"
+                    + "foreground:$Menu.foreground;"
                     + "focusWidth:0;"
                     + "borderWidth:0;"
                     + "background:null");

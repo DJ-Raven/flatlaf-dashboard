@@ -75,6 +75,7 @@ public class PopupSubmenu extends JPanel {
         button.setHorizontalAlignment(JButton.LEFT);
         button.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Menu.background;"
+                + "foreground:$Menu.foreground;"
                 + "borderWidth:0;"
                 + "arc:10;"
                 + "focusWidth:0;"

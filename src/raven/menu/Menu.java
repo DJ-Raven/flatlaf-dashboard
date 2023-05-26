@@ -86,7 +86,8 @@ public class Menu extends JPanel {
 
         header = new JLabel(headerName, new ImageIcon(getClass().getResource("/raven/icon/png/logo.png")), JLabel.LEFT);
         header.putClientProperty(FlatClientProperties.STYLE, ""
-                + "font:$Menu.header.font;");
+                + "font:$Menu.header.font;"
+                + "foreground:$Menu.foreground");
 
         //  Menu
         scroll = new JScrollPane();
@@ -103,7 +104,9 @@ public class Menu extends JPanel {
         vscroll.putClientProperty(FlatClientProperties.STYLE, ""
                 + "width:$Menu.scroll.width;"
                 + "trackInsets:$Menu.scroll.trackInsets;"
-                + "thumbInsets:$Menu.scroll.thumbInsets");
+                + "thumbInsets:$Menu.scroll.thumbInsets;"
+                + "background:$Menu.ScrollBar.background;"
+                + "thumb:$Menu.ScrollBar.thumb");
         createMenu();
         lightDarkMode = new LightDarkMode();
         add(header);
