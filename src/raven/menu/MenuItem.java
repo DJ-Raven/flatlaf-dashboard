@@ -3,6 +3,8 @@ package raven.menu;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.ui.FlatUIUtils;
+import com.formdev.flatlaf.util.UIScale;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -96,7 +98,7 @@ public class MenuItem extends JPanel {
                         if (menu.isMenuFull()) {
                             MenuAnimation.animate(MenuItem.this, !menuShow);
                         } else {
-                            popup.show(menuItem, (int) (menu.getMenuMinWidth() * 0.8f), menuItemHeight / 2);
+                            popup.show(menuItem, (int) (UIScale.scale(menu.getMenuMinWidth()) * 0.8f), UIScale.scale(menuItemHeight) / 2);
                         }
                     } else {
                         runEvent(0);
@@ -160,19 +162,25 @@ public class MenuItem extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (animate > 0) {
+            int ssubMenuItemHeight = UIScale.scale(subMenuItemHeight);
+            int ssubMenuLeftGap = UIScale.scale(subMenuLeftGap);
+            int smenuItemHeight = UIScale.scale(menuItemHeight);
+            int sfirstGap = UIScale.scale(firstGap);
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             Path2D.Double p = new Path2D.Double();
-            int last = getComponent(getComponentCount() - 1).getY() + (subMenuItemHeight / 2);
-            int round = 10;
-            int x = subMenuLeftGap - round;
-            p.moveTo(x, menuItemHeight + firstGap);
+            int last = getComponent(getComponentCount() - 1).getY() + (ssubMenuItemHeight / 2);
+            int round = UIScale.scale(10);
+            int x = ssubMenuLeftGap - round;
+            p.moveTo(x, smenuItemHeight + sfirstGap);
             p.lineTo(x, last - round);
             for (int i = 1; i < getComponentCount(); i++) {
-                int com = getComponent(i).getY() + (subMenuItemHeight / 2);
+                int com = getComponent(i).getY() + (ssubMenuItemHeight / 2);
                 p.append(createCurve(round, x, com), false);
             }
             g2.setColor(getForeground());
+            g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+            g2.setStroke(new BasicStroke(UIScale.scale(1f)));
             g2.draw(p);
             g2.dispose();
         }
@@ -186,11 +194,13 @@ public class MenuItem extends JPanel {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
             g2.setColor(FlatUIUtils.getUIColor("Menu.arrowColor", getForeground()));
+            int smenuItemHeight = UIScale.scale(menuItemHeight);
+            g2.setStroke(new BasicStroke(UIScale.scale(1f)));
             if (menu.isMenuFull()) {
-                int arrowWidth = 10;
-                int arrowHeight = 5;
-                int ax = getWidth() - arrowWidth - 10;
-                int ay = (menuItemHeight - arrowHeight) / 2;
+                int arrowWidth = UIScale.scale(10);
+                int arrowHeight = UIScale.scale(5);
+                int ax = getWidth() - arrowWidth * 2;
+                int ay = (smenuItemHeight - arrowHeight) / 2;
                 Path2D p = new Path2D.Double();
                 p.moveTo(0, animate * arrowHeight);
                 p.lineTo(arrowWidth / 2, (1f - animate) * arrowHeight);
@@ -198,10 +208,10 @@ public class MenuItem extends JPanel {
                 g2.translate(ax, ay);
                 g2.draw(p);
             } else {
-                int arrowWidth = 4;
-                int arrowHeight = 8;
-                int ax = getWidth() - arrowWidth - 3;
-                int ay = (menuItemHeight - arrowHeight) / 2;
+                int arrowWidth = UIScale.scale(4);
+                int arrowHeight = UIScale.scale(8);
+                int ax = getWidth() - arrowWidth - UIScale.scale(3);
+                int ay = (smenuItemHeight - arrowHeight) / 2;
                 Path2D p = new Path2D.Double();
                 p.moveTo(0, 0);
                 p.lineTo(arrowWidth, arrowHeight / 2);
@@ -238,13 +248,13 @@ public class MenuItem extends JPanel {
                 int height = inset.top + inset.bottom;
                 int size = parent.getComponentCount();
                 Component item = parent.getComponent(0);
-                height += menuItemHeight;
+                height += UIScale.scale(menuItemHeight);
                 if (item.isVisible()) {
-                    int subMenuHeight = size > 1 ? firstGap : 0;
+                    int subMenuHeight = size > 1 ? UIScale.scale(firstGap) : 0;
                     for (int i = 1; i < size; i++) {
                         Component com = parent.getComponent(i);
                         if (com.isVisible()) {
-                            subMenuHeight += subMenuItemHeight;
+                            subMenuHeight += UIScale.scale(subMenuItemHeight);
                         }
                     }
                     height += (subMenuHeight * animate);
@@ -274,11 +284,15 @@ public class MenuItem extends JPanel {
                     Component com = parent.getComponent(i);
                     if (com.isVisible()) {
                         if (i == 0) {
-                            com.setBounds(x, y, width, menuItemHeight);
-                            y += menuItemHeight + firstGap;
+                            int smenuItemHeight = UIScale.scale(menuItemHeight);
+                            int sfirstGap = UIScale.scale(firstGap);
+                            com.setBounds(x, y, width, smenuItemHeight);
+                            y += smenuItemHeight + sfirstGap;
                         } else {
-                            com.setBounds(x + subMenuLeftGap, y, width - subMenuLeftGap, subMenuItemHeight);
-                            y += subMenuItemHeight;
+                            int ssubMenuLeftGap = UIScale.scale(subMenuLeftGap);
+                            int ssubMenuItemHeight = UIScale.scale(subMenuItemHeight);
+                            com.setBounds(x + ssubMenuLeftGap, y, width - ssubMenuLeftGap, ssubMenuItemHeight);
+                            y += ssubMenuItemHeight;
                         }
                     }
                 }

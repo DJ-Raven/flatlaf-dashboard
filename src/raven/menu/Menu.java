@@ -2,6 +2,7 @@ package raven.menu;
 
 import raven.menu.mode.LightDarkMode;
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.util.UIScale;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -14,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -77,9 +77,9 @@ public class Menu extends JPanel {
     }
 
     private void init() {
-        setBorder(new EmptyBorder(20, 2, 2, 2));
         setLayout(new MenuLayout());
         putClientProperty(FlatClientProperties.STYLE, ""
+                + "border:20,2,2,2;"
                 + "background:$Menu.background;"
                 + "arc:10");
 
@@ -91,8 +91,8 @@ public class Menu extends JPanel {
         //  Menu
         scroll = new JScrollPane();
         panelMenu = new JPanel(new MenuItemLayout(this));
-        panelMenu.setBorder(new EmptyBorder(5, 5, 5, 5));
         panelMenu.putClientProperty(FlatClientProperties.STYLE, ""
+                + "border:5,5,5,5;"
                 + "background:$Menu.background");
 
         scroll.setViewportView(panelMenu);
@@ -193,12 +193,13 @@ public class Menu extends JPanel {
                 Insets insets = parent.getInsets();
                 int x = insets.left;
                 int y = insets.top;
-                int gap = 5;
+                int gap = UIScale.scale(5);
+                int sheaderFullHgap = UIScale.scale(headerFullHgap);
                 int width = parent.getWidth() - (insets.left + insets.right);
                 int height = parent.getHeight() - (insets.top + insets.bottom);
                 int iconWidth = width;
                 int iconHeight = header.getPreferredSize().height;
-                int hgap = menuFull ? headerFullHgap : 0;
+                int hgap = menuFull ? sheaderFullHgap : 0;
                 header.setBounds(x + hgap, y, iconWidth - (hgap * 2), iconHeight);
 
                 int ldgap = 10;

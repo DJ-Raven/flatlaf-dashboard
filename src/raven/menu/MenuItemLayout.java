@@ -1,5 +1,6 @@
 package raven.menu;
 
+import com.formdev.flatlaf.util.UIScale;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -38,7 +39,7 @@ public class MenuItemLayout implements LayoutManager {
                 if (com.isVisible()) {
                     if (com instanceof JLabel) {
                         if (menu.isMenuFull() || menu.isHideMenuTitleOnMinimum() == false) {
-                            height += com.getPreferredSize().height + (menu.getMenuTitleVgap() * 2);
+                            height += com.getPreferredSize().height + (UIScale.scale(menu.getMenuTitleVgap()) * 2);
                         }
                     } else {
                         height += com.getPreferredSize().height;
@@ -70,10 +71,12 @@ public class MenuItemLayout implements LayoutManager {
                     int comHeight = com.getPreferredSize().height;
                     if (com instanceof JLabel) {
                         if (menu.isMenuFull() || menu.isHideMenuTitleOnMinimum() == false) {
-                            int titleWidth = width - menu.getMenuTitleLeftInset();
-                            y += menu.getMenuTitleVgap();
-                            com.setBounds(x + menu.getMenuTitleLeftInset(), y, titleWidth, comHeight);
-                            y += comHeight + menu.getMenuTitleVgap();
+                            int menuTitleInset = UIScale.scale(menu.getMenuTitleLeftInset());
+                            int menuTitleVgap = UIScale.scale(menu.getMenuTitleVgap());
+                            int titleWidth = width - menuTitleInset;
+                            y += menuTitleVgap;
+                            com.setBounds(x + menuTitleInset, y, titleWidth, comHeight);
+                            y += comHeight + menuTitleVgap;
                         } else {
                             com.setBounds(0, 0, 0, 0);
                         }

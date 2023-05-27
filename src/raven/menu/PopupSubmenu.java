@@ -2,6 +2,8 @@ package raven.menu;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.util.UIScale;
+import java.awt.BasicStroke;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -12,13 +14,11 @@ import java.awt.LayoutManager;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Path2D;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -43,22 +43,19 @@ public class PopupSubmenu extends JPanel {
     private void init() {
         setLayout(new MenuLayout());
         popup = new JPopupMenu();
-        setBorder(new EmptyBorder(0, 3, 0, 3));
         popup.add(this);
         popup.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Menu.background");
         putClientProperty(FlatClientProperties.STYLE, ""
+                + "border:0,3,0,3;"
                 + "background:$Menu.background;"
                 + "foreground:$Menu.lineColor");
         for (int i = 0; i < menus.length; i++) {
             JButton button = createButtonItem(menus[i]);
             final int subIndex = i;
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    runEvent(subIndex);
-                    popup.setVisible(false);
-                }
+            button.addActionListener((ActionEvent e) -> {
+                runEvent(subIndex);
+                popup.setVisible(false);
             });
             add(button);
         }
@@ -94,17 +91,21 @@ public class PopupSubmenu extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        int ssubMenuItemHeight = UIScale.scale(subMenuItemHeight);
+        int ssubMenuLeftGap = UIScale.scale(subMenuLeftGap);
         Path2D.Double p = new Path2D.Double();
-        int last = getComponent(getComponentCount() - 1).getY() + (subMenuItemHeight / 2);
-        int round = 10;
-        int x = subMenuLeftGap - round;
+        int last = getComponent(getComponentCount() - 1).getY() + (ssubMenuItemHeight / 2);
+        int round = UIScale.scale(10);
+        int x = ssubMenuLeftGap - round;
         p.moveTo(x, 0);
         p.lineTo(x, last - round);
         for (int i = 1; i < getComponentCount(); i++) {
-            int com = getComponent(i).getY() + (subMenuItemHeight / 2);
+            int com = getComponent(i).getY() + (ssubMenuItemHeight / 2);
             p.append(createCurve(round, x, com), false);
         }
         g2.setColor(getForeground());
+        g2.setStroke(new BasicStroke(UIScale.scale(1f)));
         g2.draw(p);
         g2.dispose();
     }
@@ -130,20 +131,19 @@ public class PopupSubmenu extends JPanel {
         public Dimension preferredLayoutSize(Container parent) {
             synchronized (parent.getTreeLock()) {
                 Insets insets = parent.getInsets();
-                int x = insets.left;
-                int y = insets.top;
+                int maxWidth = UIScale.scale(150);
                 int width = 0;
                 int height = (insets.top + insets.bottom);
                 int size = parent.getComponentCount();
                 for (int i = 1; i < size; i++) {
                     Component com = parent.getComponent(i);
                     if (com.isVisible()) {
-                        height += subMenuItemHeight;
+                        height += UIScale.scale(subMenuItemHeight);
                         width = Math.max(width, com.getPreferredSize().width);
                     }
                 }
                 width += insets.left + insets.right;
-                return new Dimension(Math.max(width, 150), height);
+                return new Dimension(Math.max(width, maxWidth), height);
             }
         }
 
@@ -158,15 +158,17 @@ public class PopupSubmenu extends JPanel {
         public void layoutContainer(Container parent) {
             synchronized (parent.getTreeLock()) {
                 Insets insets = parent.getInsets();
-                int x = insets.left + subMenuLeftGap;
+                int ssubMenuLeftGap = UIScale.scale(subMenuLeftGap);
+                int ssubMenuItemHeight = UIScale.scale(subMenuItemHeight);
+                int x = insets.left + ssubMenuLeftGap;
                 int y = insets.top;
-                int width = parent.getWidth() - (insets.left + insets.right) - subMenuLeftGap;
+                int width = parent.getWidth() - (insets.left + insets.right) - ssubMenuLeftGap;
                 int size = parent.getComponentCount();
                 for (int i = 1; i < size; i++) {
                     Component com = parent.getComponent(i);
                     if (com.isVisible()) {
-                        com.setBounds(x, y, width, subMenuItemHeight);
-                        y += subMenuItemHeight;
+                        com.setBounds(x, y, width, ssubMenuItemHeight);
+                        y += ssubMenuItemHeight;
                     }
                 }
             }

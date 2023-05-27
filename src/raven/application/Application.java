@@ -2,6 +2,8 @@ package raven.application;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLaf;
+import java.awt.Component;
+import java.awt.Dimension;
 import raven.application.form.MainForm;
 
 /**
@@ -10,12 +12,19 @@ import raven.application.form.MainForm;
  */
 public class Application extends javax.swing.JFrame {
 
-    public static MainForm mainForm;
+    private static Application app;
+    public MainForm mainForm;
 
     public Application() {
         initComponents();
+        setSize(new Dimension(1200, 768));
+        setLocationRelativeTo(null);
         mainForm = new MainForm();
         setContentPane(mainForm);
+    }
+
+    public static void showForm(Component component) {
+        app.mainForm.showForm(component);
     }
 
     @SuppressWarnings("unchecked")
@@ -29,22 +38,22 @@ public class Application extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1217, Short.MAX_VALUE)
+            .addGap(0, 719, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 719, Short.MAX_VALUE)
+            .addGap(0, 521, Short.MAX_VALUE)
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
         FlatLaf.registerCustomDefaultsSource("raven.theme");
         FlatDarculaLaf.setup();
         java.awt.EventQueue.invokeLater(() -> {
-            new Application().setVisible(true);
+            app = new Application();
+            app.setVisible(true);
         });
     }
 

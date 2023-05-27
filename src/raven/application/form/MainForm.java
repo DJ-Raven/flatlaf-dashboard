@@ -2,6 +2,7 @@ package raven.application.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.util.UIScale;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -35,6 +36,7 @@ public class MainForm extends JLayeredPane {
         panelBody = new JPanel(new BorderLayout());
         menuButton = new JButton(new FlatSVGIcon("raven/icon/svg/menu_left.svg", 0.8f));
         menuButton.putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:$Menu.button.background;"
                 + "arc:999;"
                 + "focusWidth:0;"
                 + "borderWidth:0");
@@ -53,9 +55,9 @@ public class MainForm extends JLayeredPane {
             // Application.mainForm.showForm(new DefaultForm("Form : " + index + " " + subIndex));
             if (index == 1) {
                 if (subIndex == 1) {
-                    Application.mainForm.showForm(new FormInbox());
+                    Application.showForm(new FormInbox());
                 } else if (subIndex == 2) {
-                    Application.mainForm.showForm(new FormRead());
+                    Application.showForm(new FormRead());
                 }
             }
         });
@@ -106,20 +108,19 @@ public class MainForm extends JLayeredPane {
         @Override
         public void layoutContainer(Container parent) {
             synchronized (parent.getTreeLock()) {
-                Insets insets = parent.getInsets();
+                Insets insets = UIScale.scale(parent.getInsets());
                 int x = insets.left;
                 int y = insets.top;
                 int width = parent.getWidth() - (insets.left + insets.right);
                 int height = parent.getHeight() - (insets.top + insets.bottom);
-                int menuWidth = menu.isMenuFull() ? menu.getMenuMaxWidth() : menu.getMenuMinWidth();
+                int menuWidth = UIScale.scale(menu.isMenuFull() ? menu.getMenuMaxWidth() : menu.getMenuMinWidth());
                 menu.setBounds(x, y, menuWidth, height);
-
                 int menuButtonWidth = menuButton.getPreferredSize().width;
                 int menuButtonHeight = menuButton.getPreferredSize().height;
                 int menuX = (int) (x + menuWidth - (menuButtonWidth * (menu.isMenuFull() ? 0.5f : 0.3f)));
-                menuButton.setBounds(menuX, 30, menuButtonWidth, menuButtonHeight);
+                menuButton.setBounds(menuX, UIScale.scale(30), menuButtonWidth, menuButtonHeight);
 
-                int gap = 5;
+                int gap = UIScale.scale(5);
                 int bodyWidth = width - menuWidth - gap;
                 int bodyHeight = height;
                 int bodyx = x + menuWidth + gap;
