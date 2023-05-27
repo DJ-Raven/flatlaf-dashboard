@@ -11,7 +11,7 @@ This dashboard build by using java swing with flatlaf look and feel
 //  Application class from package raven.application
 //  Parameter as java.awt.Component
 
-Application.mainForm.showForm(new PanelForm());
+Application.showForm(new PanelForm());
 ```
 ### Menu Items
 ``` java
@@ -30,9 +30,9 @@ menu.addMenuEvent(new MenuEvent() {
     public void menuSelected(int index, int subIndex) {
         if (index == 1) {
             if (subIndex == 1) {
-                Application.mainForm.showForm(new FormInbox());
+                Application.showForm(new FormInbox());
             } else if (subIndex == 2) {
-                Application.mainForm.showForm(new FormRead());
+                Application.showForm(new FormRead());
             }
         }
     }
@@ -44,14 +44,12 @@ menu.addMenuEvent(new MenuEvent() {
 - [Flatlaf github](https://github.com/JFormDesigner/FlatLaf)
 - [Flatlaf doc](https://www.formdev.com/flatlaf/customizing/)
 ### Screenshot
-<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/9ef608d5-8467-47e9-8b9c-5cd3e5c79823" alt="sample 1" width="250"/>
-<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/26a633c8-fc1e-4036-88dc-ad3ba1ed6cac" alt="sample 1" width="250"/>
-<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/9eebb6a5-f395-405a-a902-b7f1d2e002db" alt="sample 1" width="250"/>
-</br></br>
-- New update [26-05-2023]
-</br></br>
-<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/68e6026b-8993-4ddc-a4be-c4d33681b580" alt="sample 1" width="250"/>
+<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/a3c1aa83-4bd8-4f24-bd96-4ee1e806cd2f" alt="sample 1" width="350"/>
+<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/e9a11a43-c2e1-4b24-bb41-3e8542e3fcf8" alt="sample 1" width="350"/>
+</br>
+<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/a33a8ee5-35f0-474c-af8c-d626884b9729" alt="sample 1" width="350"/>
 
 ### Update Note
 - [27-05-2023] Add menu item title use `~` sign around your title name : `{"~YOUR TITLE NAME~"}`
+- [28-05-2023] Update auto scale component and change `Application.mainForm.showForm()` to `Application.showForm()`
 
