@@ -22,22 +22,18 @@ import javax.swing.border.EmptyBorder;
  */
 public class Menu extends JPanel {
 
-    public int getMenuMaxWidth() {
-        return menuMaxWidth;
-    }
-
-    public int getMenuMinWidth() {
-        return menuMinWidth;
-    }
-
     private final String menuItems[][] = {
+        {"~MAIN~"},
         {"Dashboard"},
+        {"~WEB APP~"},
         {"Email", "Inbox", "Read", "Compost"},
         {"Chat"},
         {"Calendar"},
+        {"~COMPONENT~"},
         {"UI Kit", "Accordion", "Alerts", "Badges", "Breadcrumbs", "Buttons", "Button group"},
         {"Advanced UI", "Cropper", "Owl Carousel", "Sweet Alert"},
         {"Forms", "Basic Elements", "Advanced Elements", "SEditors", "Wizard"},
+        {"~OTHER~"},
         {"Charts", "Apex", "Flot", "Peity", "Sparkline"},
         {"Table", "Basic Tables", "Data Table"},
         {"Icons", "Feather Icons", "Flag Icons", "Mdi Icons"},
@@ -69,6 +65,9 @@ public class Menu extends JPanel {
     private boolean menuFull = true;
     private final String headerName = "Raven Channel";
 
+    private final boolean hideMenuTitleOnMinimum = true;
+    private final int menuTitleLeftInset = 5;
+    private final int menuTitleVgap = 5;
     private final int menuMaxWidth = 250;
     private final int menuMinWidth = 60;
     private final int headerFullHgap = 5;
@@ -91,7 +90,7 @@ public class Menu extends JPanel {
 
         //  Menu
         scroll = new JScrollPane();
-        panelMenu = new JPanel(new MenuItemLayout());
+        panelMenu = new JPanel(new MenuItemLayout(this));
         panelMenu.setBorder(new EmptyBorder(5, 5, 5, 5));
         panelMenu.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Menu.background");
@@ -115,14 +114,48 @@ public class Menu extends JPanel {
     }
 
     private void createMenu() {
+        int index = 0;
         for (int i = 0; i < menuItems.length; i++) {
-            MenuItem menuItem = new MenuItem(this, menuItems[i], i, events);
-            panelMenu.add(menuItem);
+            String menuName = menuItems[i][0];
+            if (menuName.startsWith("~") && menuName.endsWith("~")) {
+                panelMenu.add(createTitle(menuName));
+            } else {
+                MenuItem menuItem = new MenuItem(this, menuItems[i], index++, events);
+                panelMenu.add(menuItem);
+            }
         }
+    }
+
+    private JLabel createTitle(String title) {
+        String menuName = title.substring(1, title.length() - 1);
+        JLabel lbTitle = new JLabel(menuName);
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
+                + "foreground:$Menu.title.foreground");
+        return lbTitle;
     }
 
     public void addMenuEvent(MenuEvent event) {
         events.add(event);
+    }
+
+    public boolean isHideMenuTitleOnMinimum() {
+        return hideMenuTitleOnMinimum;
+    }
+
+    public int getMenuTitleLeftInset() {
+        return menuTitleLeftInset;
+    }
+
+    public int getMenuTitleVgap() {
+        return menuTitleVgap;
+    }
+
+    public int getMenuMaxWidth() {
+        return menuMaxWidth;
+    }
+
+    public int getMenuMinWidth() {
+        return menuMinWidth;
     }
 
     private JLabel header;

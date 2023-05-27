@@ -5,12 +5,19 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Raven
  */
 public class MenuItemLayout implements LayoutManager {
+
+    private final Menu menu;
+
+    public MenuItemLayout(Menu menu) {
+        this.menu = menu;
+    }
 
     @Override
     public void addLayoutComponent(String name, Component comp) {
@@ -29,7 +36,13 @@ public class MenuItemLayout implements LayoutManager {
             for (int i = 0; i < size; i++) {
                 Component com = parent.getComponent(i);
                 if (com.isVisible()) {
-                    height += com.getPreferredSize().height;
+                    if (com instanceof JLabel) {
+                        if (menu.isMenuFull() || menu.isHideMenuTitleOnMinimum() == false) {
+                            height += com.getPreferredSize().height + (menu.getMenuTitleVgap() * 2);
+                        }
+                    } else {
+                        height += com.getPreferredSize().height;
+                    }
                 }
             }
             return new Dimension(5, height);
@@ -54,9 +67,20 @@ public class MenuItemLayout implements LayoutManager {
             for (int i = 0; i < size; i++) {
                 Component com = parent.getComponent(i);
                 if (com.isVisible()) {
-                    int menuHeight = com.getPreferredSize().height;
-                    com.setBounds(x, y, width, menuHeight);
-                    y += menuHeight;
+                    int comHeight = com.getPreferredSize().height;
+                    if (com instanceof JLabel) {
+                        if (menu.isMenuFull() || menu.isHideMenuTitleOnMinimum() == false) {
+                            int titleWidth = width - menu.getMenuTitleLeftInset();
+                            y += menu.getMenuTitleVgap();
+                            com.setBounds(x + menu.getMenuTitleLeftInset(), y, titleWidth, comHeight);
+                            y += comHeight + menu.getMenuTitleVgap();
+                        } else {
+                            com.setBounds(0, 0, 0, 0);
+                        }
+                    } else {
+                        com.setBounds(x, y, width, comHeight);
+                        y += comHeight;
+                    }
                 }
             }
         }
