@@ -39,8 +39,14 @@ Modify submenu item height in class [raven.menu.MenuItem.java](https://github.co
 - [Flatlaf github](https://github.com/JFormDesigner/FlatLaf)
 - [Flatlaf doc](https://www.formdev.com/flatlaf/customizing/)
 ### Screenshot
-![2023-05-21_155517](https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/9ef608d5-8467-47e9-8b9c-5cd3e5c79823)
+<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/9ef608d5-8467-47e9-8b9c-5cd3e5c79823" alt="sample 1" width="250"/>
+<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/26a633c8-fc1e-4036-88dc-ad3ba1ed6cac" alt="sample 1" width="250"/>
+<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/9eebb6a5-f395-405a-a902-b7f1d2e002db" alt="sample 1" width="250"/>
+</br></br>
+- New update [26-05-2023]
+</br></br>
+<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/68e6026b-8993-4ddc-a4be-c4d33681b580" alt="sample 1" width="250"/>
 
-![2023-05-21_155524](https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/26a633c8-fc1e-4036-88dc-ad3ba1ed6cac)
 
-![2023-05-21_155542](https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/9eebb6a5-f395-405a-a902-b7f1d2e002db)
+
+
