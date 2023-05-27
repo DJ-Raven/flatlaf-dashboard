@@ -13,6 +13,16 @@ This dashboard build by using java swing with flatlaf look and feel
 
 Application.mainForm.showForm(new PanelForm());
 ```
+### Menu Items
+``` java
+//  Modify this code in raven.menu.Menu.java
+
+private final String menuItems[][] = {
+    {"~MAIN~"}, //  Menu title
+    {"Dashboard"},
+    {"Email", "Inbox", "Read", "Compost"},
+};
+```
 ### Menu
 ``` java
 menu.addMenuEvent(new MenuEvent() {
@@ -28,11 +38,6 @@ menu.addMenuEvent(new MenuEvent() {
     }
 });
 ```
-Modify menu item and submenu item in class [raven.menu.Menu.java](https://github.com/DJ-Raven/java-ui-dashboard-014/blob/003b4b5f49f14280762212c407e496ae43e4a19f/src/raven/menu/Menu.java#L33)</br>
-Modify menu event in class [raven.application.form.MainForm.java](https://github.com/DJ-Raven/java-ui-dashboard-014/blob/003b4b5f49f14280762212c407e496ae43e4a19f/src/raven/application/form/MainForm.java#L53)
-### Menu item size
-Modify menu item height in class [raven.menu.MenuItem.java](https://github.com/DJ-Raven/java-ui-dashboard-014/blob/69bec2044c79a409e98c22e5328934f437c3a040/src/raven/menu/MenuItem.java#L57)</br>
-Modify submenu item height in class [raven.menu.MenuItem.java](https://github.com/DJ-Raven/java-ui-dashboard-014/blob/69bec2044c79a409e98c22e5328934f437c3a040/src/raven/menu/MenuItem.java#L58)</br>  
 
 ### More custom you can apply flatlaf style properties
 
@@ -47,6 +52,6 @@ Modify submenu item height in class [raven.menu.MenuItem.java](https://github.co
 </br></br>
 <img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/68e6026b-8993-4ddc-a4be-c4d33681b580" alt="sample 1" width="250"/>
 
-
-
+### Update Note
+- [27-05-2023] Add menu item title use `~` sign around your title name : `{"~YOUR TITLE NAME~"}`
 
