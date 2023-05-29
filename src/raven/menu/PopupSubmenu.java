@@ -43,14 +43,16 @@ public class PopupSubmenu extends JPanel {
     private void init() {
         setLayout(new MenuLayout());
         popup = new JPopupMenu();
-        popup.add(this);
         popup.putClientProperty(FlatClientProperties.STYLE, ""
-                + "background:$Menu.background");
+                + "background:$Menu.background;"
+                + "borderColor:$Menu.background;");
+        popup.putClientProperty(FlatClientProperties.POPUP_BORDER_CORNER_RADIUS, 20);
+        popup.putClientProperty(FlatClientProperties.POPUP_DROP_SHADOW_PAINTED, true);
         putClientProperty(FlatClientProperties.STYLE, ""
                 + "border:0,3,0,3;"
                 + "background:$Menu.background;"
                 + "foreground:$Menu.lineColor");
-        for (int i = 0; i < menus.length; i++) {
+        for (int i = 1; i < menus.length; i++) {
             JButton button = createButtonItem(menus[i]);
             final int subIndex = i;
             button.addActionListener((ActionEvent e) -> {
@@ -59,6 +61,7 @@ public class PopupSubmenu extends JPanel {
             });
             add(button);
         }
+        popup.add(this);
     }
 
     private void runEvent(int subIndex) {
@@ -100,7 +103,7 @@ public class PopupSubmenu extends JPanel {
         int x = ssubMenuLeftGap - round;
         p.moveTo(x, 0);
         p.lineTo(x, last - round);
-        for (int i = 1; i < getComponentCount(); i++) {
+        for (int i = 0; i < getComponentCount(); i++) {
             int com = getComponent(i).getY() + (ssubMenuItemHeight / 2);
             p.append(createCurve(round, x, com), false);
         }
@@ -132,10 +135,11 @@ public class PopupSubmenu extends JPanel {
             synchronized (parent.getTreeLock()) {
                 Insets insets = parent.getInsets();
                 int maxWidth = UIScale.scale(150);
-                int width = 0;
+                int ssubMenuLeftGap = UIScale.scale(subMenuLeftGap);
+                int width = getMaxWidth(parent) + ssubMenuLeftGap;
                 int height = (insets.top + insets.bottom);
                 int size = parent.getComponentCount();
-                for (int i = 1; i < size; i++) {
+                for (int i = 0; i < size; i++) {
                     Component com = parent.getComponent(i);
                     if (com.isVisible()) {
                         height += UIScale.scale(subMenuItemHeight);
@@ -143,7 +147,7 @@ public class PopupSubmenu extends JPanel {
                     }
                 }
                 width += insets.left + insets.right;
-                return new Dimension(Math.max(width, maxWidth), height);
+                return new Dimension(Math.max(width, maxWidth), height - UIScale.scale(4));
             }
         }
 
@@ -162,9 +166,9 @@ public class PopupSubmenu extends JPanel {
                 int ssubMenuItemHeight = UIScale.scale(subMenuItemHeight);
                 int x = insets.left + ssubMenuLeftGap;
                 int y = insets.top;
-                int width = parent.getWidth() - (insets.left + insets.right) - ssubMenuLeftGap;
+                int width = getMaxWidth(parent);
                 int size = parent.getComponentCount();
-                for (int i = 1; i < size; i++) {
+                for (int i = 0; i < size; i++) {
                     Component com = parent.getComponent(i);
                     if (com.isVisible()) {
                         com.setBounds(x, y, width, ssubMenuItemHeight);
@@ -172,6 +176,19 @@ public class PopupSubmenu extends JPanel {
                     }
                 }
             }
+        }
+
+        private int getMaxWidth(Container parent) {
+            int size = parent.getComponentCount();
+            int maxWidth = UIScale.scale(150);
+            int max = 0;
+            for (int i = 0; i < size; i++) {
+                Component com = parent.getComponent(i);
+                if (com.isVisible()) {
+                    max = Math.max(max, com.getPreferredSize().width);
+                }
+            }
+            return Math.max(max, maxWidth);
         }
     }
 }
