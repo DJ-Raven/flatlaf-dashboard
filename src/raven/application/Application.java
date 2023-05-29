@@ -4,6 +4,8 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLaf;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import raven.application.form.LoginForm;
 import raven.application.form.MainForm;
 
 /**
@@ -13,18 +15,30 @@ import raven.application.form.MainForm;
 public class Application extends javax.swing.JFrame {
 
     private static Application app;
-    public MainForm mainForm;
+    private MainForm mainForm;
+    private LoginForm loginForm;
 
     public Application() {
         initComponents();
-        setSize(new Dimension(1200, 768));
+        setSize(new Dimension(1366, 768));
         setLocationRelativeTo(null);
         mainForm = new MainForm();
-        setContentPane(mainForm);
+        loginForm = new LoginForm();
+        setContentPane(loginForm);
     }
 
     public static void showForm(Component component) {
         app.mainForm.showForm(component);
+    }
+
+    public static void login() {
+        app.setContentPane(app.mainForm);
+        FlatLaf.updateUI();
+    }
+
+    public static void logout() {
+        app.setContentPane(app.loginForm);
+        FlatLaf.updateUI();
     }
 
     @SuppressWarnings("unchecked")

@@ -59,6 +59,8 @@ public class MainForm extends JLayeredPane {
                 } else if (subIndex == 2) {
                     Application.showForm(new FormRead());
                 }
+            } else if (index == 11) {
+                Application.logout();
             }
         });
     }

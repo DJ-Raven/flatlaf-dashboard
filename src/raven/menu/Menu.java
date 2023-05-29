@@ -37,7 +37,8 @@ public class Menu extends JPanel {
         {"Charts", "Apex", "Flot", "Peity", "Sparkline"},
         {"Table", "Basic Tables", "Data Table"},
         {"Icons", "Feather Icons", "Flag Icons", "Mdi Icons"},
-        {"Special Pages", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"}
+        {"Special Pages", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
+        {"Logout"}
     };
 
     public boolean isMenuFull() {
