@@ -47,9 +47,9 @@ menu.addMenuEvent(new MenuEvent() {
 <img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/a3c1aa83-4bd8-4f24-bd96-4ee1e806cd2f" alt="sample 1" width="350"/>
 <img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/e9a11a43-c2e1-4b24-bb41-3e8542e3fcf8" alt="sample 1" width="350"/>
 </br>
-<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/a33a8ee5-35f0-474c-af8c-d626884b9729" alt="sample 1" width="350"/>
+<img src="https://github.com/DJ-Raven/java-ui-dashboard-014/assets/58245926/53799394-90b0-454d-9c0e-2defc8ffd3db" alt="sample 1" width="350"/>
 
 ### Update Note
 - [27-05-2023] Add menu item title use `~` sign around your title name : `{"~YOUR TITLE NAME~"}`
 - [28-05-2023] Update auto scale component and change `Application.mainForm.showForm()` to `Application.showForm()`
-
+- [29-05-2023] Update popup submenu item removed border and add drop shadow border
