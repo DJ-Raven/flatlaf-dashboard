@@ -1,7 +1,6 @@
 package raven.menu;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.util.UIScale;
 import java.awt.BasicStroke;
 import java.awt.Component;
@@ -17,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.Path2D;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
@@ -46,8 +46,6 @@ public class PopupSubmenu extends JPanel {
         popup.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Menu.background;"
                 + "borderColor:$Menu.background;");
-        popup.putClientProperty(FlatClientProperties.POPUP_BORDER_CORNER_RADIUS, 20);
-        popup.putClientProperty(FlatClientProperties.POPUP_DROP_SHADOW_PAINTED, true);
         putClientProperty(FlatClientProperties.STYLE, ""
                 + "border:0,3,0,3;"
                 + "background:$Menu.background;"
@@ -86,7 +84,15 @@ public class PopupSubmenu extends JPanel {
 
     public void show(Component com, int x, int y) {
         popup.show(com, x, y);
-        FlatLaf.updateUI();
+        updateUIComponent();
+    }
+
+    private void updateUIComponent() {
+        popup.updateUI();
+        updateUI();
+        for (Component c : getComponents()) {
+            ((JComponent) c).updateUI();
+        }
     }
 
     @Override
@@ -147,7 +153,7 @@ public class PopupSubmenu extends JPanel {
                     }
                 }
                 width += insets.left + insets.right;
-                return new Dimension(Math.max(width, maxWidth), height - UIScale.scale(4));
+                return new Dimension(Math.max(width, maxWidth), height);
             }
         }
 

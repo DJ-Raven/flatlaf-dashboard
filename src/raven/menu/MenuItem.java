@@ -98,7 +98,7 @@ public class MenuItem extends JPanel {
                         if (menu.isMenuFull()) {
                             MenuAnimation.animate(MenuItem.this, !menuShow);
                         } else {
-                            popup.show(menuItem, (int) (UIScale.scale(menu.getMenuMinWidth()) * 0.8f), UIScale.scale(menuItemHeight) / 2);
+                            popup.show(MenuItem.this, (int) (UIScale.scale(menu.getMenuMinWidth()) * 0.8f), UIScale.scale(menuItemHeight) / 2);
                         }
                     } else {
                         runEvent(0);
