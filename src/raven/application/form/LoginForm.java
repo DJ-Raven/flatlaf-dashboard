@@ -11,7 +11,7 @@ import raven.application.Application;
 
 /**
  *
- * @author RAVEN
+ * @author Raven
  */
 public class LoginForm extends javax.swing.JPanel {
 

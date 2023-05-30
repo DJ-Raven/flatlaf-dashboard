@@ -2,8 +2,10 @@ package raven.application;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import java.awt.Component;
 import java.awt.Dimension;
+import javax.swing.SwingUtilities;
 import raven.application.form.LoginForm;
 import raven.application.form.MainForm;
 
@@ -31,13 +33,17 @@ public class Application extends javax.swing.JFrame {
     }
 
     public static void login() {
+        FlatAnimatedLafChange.showSnapshot();
         app.setContentPane(app.mainForm);
-        FlatLaf.updateUI();
+        SwingUtilities.updateComponentTreeUI(app.mainForm);
+        FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 
     public static void logout() {
+        FlatAnimatedLafChange.showSnapshot();
         app.setContentPane(app.loginForm);
-        FlatLaf.updateUI();
+        SwingUtilities.updateComponentTreeUI(app.loginForm);
+        FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 
     @SuppressWarnings("unchecked")
