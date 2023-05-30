@@ -16,9 +16,9 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.Path2D;
 import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -84,15 +84,7 @@ public class PopupSubmenu extends JPanel {
 
     public void show(Component com, int x, int y) {
         popup.show(com, x, y);
-        updateUIComponent();
-    }
-
-    private void updateUIComponent() {
-        popup.updateUI();
-        updateUI();
-        for (Component c : getComponents()) {
-            ((JComponent) c).updateUI();
-        }
+        SwingUtilities.updateComponentTreeUI(popup);
     }
 
     @Override
