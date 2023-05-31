@@ -12,6 +12,10 @@ This dashboard build by using java swing with flatlaf look and feel
 //  Parameter as java.awt.Component
 
 Application.showForm(new PanelForm());
+
+//  Set menu selection by index and subIndex
+
+Application.setSelectedMenu(0, 0);
 ```
 ### Menu Items
 ``` java
@@ -23,17 +27,19 @@ private final String menuItems[][] = {
     {"Email", "Inbox", "Read", "Compost"},
 };
 ```
-### Menu
+### Menu Event
 ``` java
 menu.addMenuEvent(new MenuEvent() {
     @Override
-    public void menuSelected(int index, int subIndex) {
+    public void menuSelected(int index, int subIndex, MenuAction action) {
         if (index == 1) {
             if (subIndex == 1) {
                 Application.showForm(new FormInbox());
             } else if (subIndex == 2) {
                 Application.showForm(new FormRead());
             }
+        } else {
+            action.cancel();
         }
     }
 });
@@ -55,3 +61,4 @@ menu.addMenuEvent(new MenuEvent() {
 - [28-05-2023] Update auto scale component and change `Application.mainForm.showForm()` to `Application.showForm()`
 - [29-05-2023] Update popup submenu item removed border and add drop shadow border
 - [31-05-2023] Update add login form
+- [31-05-2023] Update selection menu background and add method selected menu by index and subIndex
