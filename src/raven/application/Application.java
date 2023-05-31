@@ -36,6 +36,7 @@ public class Application extends javax.swing.JFrame {
         FlatAnimatedLafChange.showSnapshot();
         app.setContentPane(app.mainForm);
         SwingUtilities.updateComponentTreeUI(app.mainForm);
+        app.mainForm.showDefaultForm();
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 
@@ -44,6 +45,10 @@ public class Application extends javax.swing.JFrame {
         app.setContentPane(app.loginForm);
         SwingUtilities.updateComponentTreeUI(app.loginForm);
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
+    }
+
+    public static void setSelectedMenu(int index, int subIndex) {
+        app.mainForm.setSelectedMenu(index, subIndex);
     }
 
     @SuppressWarnings("unchecked")

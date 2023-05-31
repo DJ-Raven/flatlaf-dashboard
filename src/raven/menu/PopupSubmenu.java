@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
  */
 public class PopupSubmenu extends JPanel {
 
+    private final Menu menu;
     private final List<MenuEvent> events;
     private final int menuIndex;
     private final int subMenuLeftGap = 20;
@@ -33,7 +34,8 @@ public class PopupSubmenu extends JPanel {
     private final String menus[];
     private JPopupMenu popup;
 
-    public PopupSubmenu(int menuIndex, String menus[], List<MenuEvent> events) {
+    public PopupSubmenu(Menu menu, int menuIndex, String menus[], List<MenuEvent> events) {
+        this.menu = menu;
         this.menuIndex = menuIndex;
         this.menus = menus;
         this.events = events;
@@ -63,8 +65,12 @@ public class PopupSubmenu extends JPanel {
     }
 
     private void runEvent(int subIndex) {
+        MenuAction menuAction = new MenuAction();
         for (MenuEvent event : events) {
-            event.menuSelected(menuIndex, subIndex);
+            event.menuSelected(menuIndex, subIndex, menuAction);
+        }
+        if (!menuAction.isCancel()) {
+            menu.setSelectedMenu(menuIndex, subIndex);
         }
     }
 
@@ -74,6 +80,8 @@ public class PopupSubmenu extends JPanel {
         button.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Menu.background;"
                 + "foreground:$Menu.foreground;"
+                + "selectedBackground:$Menu.button.selectedBackground;"
+                + "selectedForeground:$Menu.button.selectedForeground;"
                 + "borderWidth:0;"
                 + "arc:10;"
                 + "focusWidth:0;"
@@ -85,6 +93,16 @@ public class PopupSubmenu extends JPanel {
     public void show(Component com, int x, int y) {
         popup.show(com, x, y);
         SwingUtilities.updateComponentTreeUI(popup);
+    }
+
+    protected void setSelectedIndex(int index) {
+        int size = getComponentCount();
+        for (int i = 0; i < size; i++) {
+            Component com = getComponent(i);
+            if (com instanceof JButton) {
+                ((JButton) com).setSelected(i == index - 1);
+            }
+        }
     }
 
     @Override

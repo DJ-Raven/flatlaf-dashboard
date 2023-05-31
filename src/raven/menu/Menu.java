@@ -66,12 +66,12 @@ public class Menu extends JPanel {
     private boolean menuFull = true;
     private final String headerName = "Raven Channel";
 
-    private final boolean hideMenuTitleOnMinimum = true;
-    private final int menuTitleLeftInset = 5;
-    private final int menuTitleVgap = 5;
-    private final int menuMaxWidth = 250;
-    private final int menuMinWidth = 60;
-    private final int headerFullHgap = 5;
+    protected final boolean hideMenuTitleOnMinimum = true;
+    protected final int menuTitleLeftInset = 5;
+    protected final int menuTitleVgap = 5;
+    protected final int menuMaxWidth = 250;
+    protected final int menuMinWidth = 60;
+    protected final int headerFullHgap = 5;
 
     public Menu() {
         init();
@@ -83,7 +83,6 @@ public class Menu extends JPanel {
                 + "border:20,2,2,2;"
                 + "background:$Menu.background;"
                 + "arc:10");
-
         header = new JLabel(headerName, new ImageIcon(getClass().getResource("/raven/icon/png/logo.png")), JLabel.LEFT);
         header.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$Menu.header.font;"
@@ -133,6 +132,21 @@ public class Menu extends JPanel {
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "foreground:$Menu.title.foreground");
         return lbTitle;
+    }
+
+    public void setSelectedMenu(int index, int subIndex) {
+        int size = panelMenu.getComponentCount();
+        for (int i = 0; i < size; i++) {
+            Component com = panelMenu.getComponent(i);
+            if (com instanceof MenuItem) {
+                MenuItem item = (MenuItem) com;
+                if (item.getMenuIndex() == index) {
+                    item.setSelectedIndex(subIndex);
+                } else {
+                    item.setSelectedIndex(-1);
+                }
+            }
+        }
     }
 
     public void addMenuEvent(MenuEvent event) {

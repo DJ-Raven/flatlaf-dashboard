@@ -15,9 +15,11 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import raven.application.Application;
+import raven.application.form.other.FormDashboard;
 import raven.application.form.other.FormInbox;
 import raven.application.form.other.FormRead;
 import raven.menu.Menu;
+import raven.menu.MenuAction;
 
 /**
  *
@@ -51,16 +53,22 @@ public class MainForm extends JLayeredPane {
     }
 
     private void initMenuEvent() {
-        menu.addMenuEvent((int index, int subIndex) -> {
+        menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
             // Application.mainForm.showForm(new DefaultForm("Form : " + index + " " + subIndex));
-            if (index == 1) {
+            if (index == 0) {
+                Application.showForm(new FormDashboard());
+            } else if (index == 1) {
                 if (subIndex == 1) {
                     Application.showForm(new FormInbox());
                 } else if (subIndex == 2) {
                     Application.showForm(new FormRead());
+                } else {
+                    action.cancel();
                 }
             } else if (index == 11) {
                 Application.logout();
+            } else {
+                action.cancel();
             }
         });
     }
@@ -77,6 +85,15 @@ public class MainForm extends JLayeredPane {
         panelBody.add(component);
         panelBody.repaint();
         panelBody.revalidate();
+    }
+
+    public void setSelectedMenu(int index, int subIndex) {
+        menu.setSelectedMenu(index, subIndex);
+    }
+
+    public void showDefaultForm() {
+        showForm(new FormDashboard());
+        menu.setSelectedMenu(0, 0);
     }
 
     private Menu menu;

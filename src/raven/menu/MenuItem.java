@@ -60,6 +60,7 @@ public class MenuItem extends JPanel {
     private final int subMenuItemHeight = 35;
     private final int subMenuLeftGap = 34;
     private final int firstGap = 5;
+    private final int bottomGap = 5;
     private boolean menuShow;
     private float animate;
 
@@ -112,13 +113,33 @@ public class MenuItem extends JPanel {
             }
             add(menuItem);
         }
-        popup = new PopupSubmenu(menuIndex, menus, events);
+        popup = new PopupSubmenu(menu, menuIndex, menus, events);
     }
 
     private void runEvent(int subIndex) {
+        MenuAction menuAction = new MenuAction();
         for (MenuEvent event : events) {
-            event.menuSelected(menuIndex, subIndex);
+            event.menuSelected(menuIndex, subIndex, menuAction);
         }
+        if (!menuAction.isCancel()) {
+            menu.setSelectedMenu(menuIndex, subIndex);
+        }
+    }
+
+    protected void setSelectedIndex(int index) {
+        int size = getComponentCount();
+        boolean selected = false;
+        for (int i = 0; i < size; i++) {
+            Component com = getComponent(i);
+            if (com instanceof JButton) {
+                ((JButton) com).setSelected(i == index);
+                if (i == index) {
+                    selected = true;
+                }
+            }
+        }
+        ((JButton) getComponent(0)).setSelected(selected);
+        popup.setSelectedIndex(index);
     }
 
     private JButton createButtonItem(String text) {
@@ -126,6 +147,8 @@ public class MenuItem extends JPanel {
         button.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Menu.background;"
                 + "foreground:$Menu.foreground;"
+                + "selectedBackground:$Menu.button.selectedBackground;"
+                + "selectedForeground:$Menu.button.selectedForeground;"
                 + "borderWidth:0;"
                 + "focusWidth:0;"
                 + "arc:10;"
@@ -250,7 +273,7 @@ public class MenuItem extends JPanel {
                 Component item = parent.getComponent(0);
                 height += UIScale.scale(menuItemHeight);
                 if (item.isVisible()) {
-                    int subMenuHeight = size > 1 ? UIScale.scale(firstGap) : 0;
+                    int subMenuHeight = size > 1 ? UIScale.scale(firstGap) + UIScale.scale(bottomGap) : 0;
                     for (int i = 1; i < size; i++) {
                         Component com = parent.getComponent(i);
                         if (com.isVisible()) {
