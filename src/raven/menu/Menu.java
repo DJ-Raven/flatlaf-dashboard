@@ -135,6 +135,10 @@ public class Menu extends JPanel {
     }
 
     public void setSelectedMenu(int index, int subIndex) {
+        runEvent(index, subIndex);
+    }
+
+    protected void setSelected(int index, int subIndex) {
         int size = panelMenu.getComponentCount();
         for (int i = 0; i < size; i++) {
             Component com = panelMenu.getComponent(i);
@@ -149,8 +153,27 @@ public class Menu extends JPanel {
         }
     }
 
+    protected void runEvent(int index, int subIndex) {
+        MenuAction menuAction = new MenuAction();
+        for (MenuEvent event : events) {
+            event.menuSelected(index, subIndex, menuAction);
+        }
+        if (!menuAction.isCancel()) {
+            setSelected(index, subIndex);
+        }
+    }
+
     public void addMenuEvent(MenuEvent event) {
         events.add(event);
+    }
+
+    public void hideMenuItem() {
+        for (Component com : panelMenu.getComponents()) {
+            if (com instanceof MenuItem) {
+                ((MenuItem) com).hideMenuItem();
+            }
+        }
+        revalidate();
     }
 
     public boolean isHideMenuTitleOnMinimum() {

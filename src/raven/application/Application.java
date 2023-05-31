@@ -35,8 +35,9 @@ public class Application extends javax.swing.JFrame {
     public static void login() {
         FlatAnimatedLafChange.showSnapshot();
         app.setContentPane(app.mainForm);
+        setSelectedMenu(0, 0);
+        app.mainForm.hideMenu();
         SwingUtilities.updateComponentTreeUI(app.mainForm);
-        app.mainForm.showDefaultForm();
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 

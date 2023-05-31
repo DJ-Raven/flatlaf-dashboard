@@ -80,6 +80,10 @@ public class MainForm extends JLayeredPane {
         revalidate();
     }
 
+    public void hideMenu() {
+        menu.hideMenuItem();
+    }
+
     public void showForm(Component component) {
         panelBody.removeAll();
         panelBody.add(component);
@@ -89,11 +93,6 @@ public class MainForm extends JLayeredPane {
 
     public void setSelectedMenu(int index, int subIndex) {
         menu.setSelectedMenu(index, subIndex);
-    }
-
-    public void showDefaultForm() {
-        showForm(new FormDashboard());
-        menu.setSelectedMenu(0, 0);
     }
 
     private Menu menu;

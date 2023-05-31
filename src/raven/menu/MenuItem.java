@@ -102,28 +102,18 @@ public class MenuItem extends JPanel {
                             popup.show(MenuItem.this, (int) (UIScale.scale(menu.getMenuMinWidth()) * 0.8f), UIScale.scale(menuItemHeight) / 2);
                         }
                     } else {
-                        runEvent(0);
+                        menu.runEvent(menuIndex, 0);
                     }
                 });
             } else {
                 final int subIndex = i;
                 menuItem.addActionListener((ActionEvent e) -> {
-                    runEvent(subIndex);
+                    menu.runEvent(menuIndex, subIndex);
                 });
             }
             add(menuItem);
         }
         popup = new PopupSubmenu(menu, menuIndex, menus, events);
-    }
-
-    private void runEvent(int subIndex) {
-        MenuAction menuAction = new MenuAction();
-        for (MenuEvent event : events) {
-            event.menuSelected(menuIndex, subIndex, menuAction);
-        }
-        if (!menuAction.isCancel()) {
-            menu.setSelectedMenu(menuIndex, subIndex);
-        }
     }
 
     protected void setSelectedIndex(int index) {
@@ -155,6 +145,11 @@ public class MenuItem extends JPanel {
                 + "iconTextGap:10;"
                 + "margin:5,11,5,11");
         return button;
+    }
+
+    public void hideMenuItem() {
+        animate = 0;
+        menuShow = false;
     }
 
     public void setFull(boolean full) {

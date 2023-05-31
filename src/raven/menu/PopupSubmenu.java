@@ -56,22 +56,12 @@ public class PopupSubmenu extends JPanel {
             JButton button = createButtonItem(menus[i]);
             final int subIndex = i;
             button.addActionListener((ActionEvent e) -> {
-                runEvent(subIndex);
+                menu.runEvent(menuIndex, subIndex);
                 popup.setVisible(false);
             });
             add(button);
         }
         popup.add(this);
-    }
-
-    private void runEvent(int subIndex) {
-        MenuAction menuAction = new MenuAction();
-        for (MenuEvent event : events) {
-            event.menuSelected(menuIndex, subIndex, menuAction);
-        }
-        if (!menuAction.isCancel()) {
-            menu.setSelectedMenu(menuIndex, subIndex);
-        }
     }
 
     private JButton createButtonItem(String text) {
