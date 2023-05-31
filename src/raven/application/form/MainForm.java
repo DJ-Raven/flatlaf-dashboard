@@ -65,7 +65,7 @@ public class MainForm extends JLayeredPane {
                 } else {
                     action.cancel();
                 }
-            } else if (index == 11) {
+            } else if (index == 9) {
                 Application.logout();
             } else {
                 action.cancel();
