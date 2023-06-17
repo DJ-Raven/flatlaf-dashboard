@@ -5,6 +5,7 @@ This dashboard build by using java swing with flatlaf look and feel
 - flatlaf-3.1.1.jar
 - flatlaf-extras-3.1.1.jar
 - svgSalamander-1.1.4.jar
+- swing-toast-notifications-1.0.0.jar
 
 ### Sample code to show form
 ``` java
