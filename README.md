@@ -62,3 +62,4 @@ menu.addMenuEvent(new MenuEvent() {
 - [29-05-2023] Update popup submenu item removed border and add drop shadow border
 - [31-05-2023] Update add login form
 - [31-05-2023] Update selection menu background and add method selected menu by index and subIndex
+- [17-06-2023] Update add [Toast Notifications](https://github.com/DJ-Raven/swing-toast-notifications.git)
