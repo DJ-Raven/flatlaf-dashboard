@@ -3,11 +3,15 @@ package raven.application;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import raven.application.form.LoginForm;
 import raven.application.form.MainForm;
+import raven.toast.Notifications;
+import raven.toast.ToastClientProperties;
 
 /**
  *
@@ -26,6 +30,7 @@ public class Application extends javax.swing.JFrame {
         mainForm = new MainForm();
         loginForm = new LoginForm();
         setContentPane(loginForm);
+        Notifications.getInstance().setJFrame(this);
     }
 
     public static void showForm(Component component) {
