@@ -128,6 +128,7 @@ public class Menu extends JPanel {
         String menuName = title.substring(1, title.length() - 1);
         JLabel lbTitle = new JLabel(menuName);
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
+                + "font:$Menu.label.font;"
                 + "foreground:$Menu.title.foreground");
         return lbTitle;
     }

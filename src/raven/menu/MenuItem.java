@@ -135,6 +135,7 @@ public class MenuItem extends JPanel {
     private JButton createButtonItem(String text) {
         JButton button = new JButton(text);
         button.putClientProperty(FlatClientProperties.STYLE, ""
+                + "font:$Menu.item.font;"
                 + "background:$Menu.background;"
                 + "foreground:$Menu.foreground;"
                 + "selectedBackground:$Menu.button.selectedBackground;"
