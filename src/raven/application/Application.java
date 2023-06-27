@@ -3,15 +3,13 @@ package raven.application;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import raven.application.form.LoginForm;
 import raven.application.form.MainForm;
 import raven.toast.Notifications;
-import raven.toast.ToastClientProperties;
 
 /**
  *
@@ -34,12 +32,14 @@ public class Application extends javax.swing.JFrame {
     }
 
     public static void showForm(Component component) {
+        component.applyComponentOrientation(app.getComponentOrientation());
         app.mainForm.showForm(component);
     }
 
     public static void login() {
         FlatAnimatedLafChange.showSnapshot();
         app.setContentPane(app.mainForm);
+        app.mainForm.applyComponentOrientation(app.getComponentOrientation());
         setSelectedMenu(0, 0);
         app.mainForm.hideMenu();
         SwingUtilities.updateComponentTreeUI(app.mainForm);
@@ -49,6 +49,7 @@ public class Application extends javax.swing.JFrame {
     public static void logout() {
         FlatAnimatedLafChange.showSnapshot();
         app.setContentPane(app.loginForm);
+        app.loginForm.applyComponentOrientation(app.getComponentOrientation());
         SwingUtilities.updateComponentTreeUI(app.loginForm);
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
@@ -83,6 +84,7 @@ public class Application extends javax.swing.JFrame {
         FlatDarculaLaf.setup();
         java.awt.EventQueue.invokeLater(() -> {
             app = new Application();
+            //  app.applyComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
             app.setVisible(true);
         });
     }

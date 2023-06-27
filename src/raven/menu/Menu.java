@@ -47,7 +47,7 @@ public class Menu extends JPanel {
         this.menuFull = menuFull;
         if (menuFull) {
             header.setText(headerName);
-            header.setHorizontalAlignment(JLabel.LEFT);
+            header.setHorizontalAlignment(getComponentOrientation().isLeftToRight() ? JLabel.LEFT : JLabel.RIGHT);
         } else {
             header.setText("");
             header.setHorizontalAlignment(JLabel.CENTER);
@@ -81,7 +81,8 @@ public class Menu extends JPanel {
                 + "border:20,2,2,2;"
                 + "background:$Menu.background;"
                 + "arc:10");
-        header = new JLabel(headerName, new ImageIcon(getClass().getResource("/raven/icon/png/logo.png")), JLabel.LEFT);
+        header = new JLabel(headerName);
+        header.setIcon(new ImageIcon(getClass().getResource("/raven/icon/png/logo.png")));
         header.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$Menu.header.font;"
                 + "foreground:$Menu.foreground");

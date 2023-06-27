@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.util.UIScale;
 import java.awt.BasicStroke;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -34,11 +35,12 @@ public class PopupSubmenu extends JPanel {
     private final String menus[];
     private JPopupMenu popup;
 
-    public PopupSubmenu(Menu menu, int menuIndex, String menus[], List<MenuEvent> events) {
+    public PopupSubmenu(ComponentOrientation orientation, Menu menu, int menuIndex, String menus[], List<MenuEvent> events) {
         this.menu = menu;
         this.menuIndex = menuIndex;
         this.menus = menus;
         this.events = events;
+        applyComponentOrientation(orientation);
         init();
     }
 
@@ -66,7 +68,6 @@ public class PopupSubmenu extends JPanel {
 
     private JButton createButtonItem(String text) {
         JButton button = new JButton(text);
-        button.setHorizontalAlignment(JButton.LEFT);
         button.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Menu.background;"
                 + "foreground:$Menu.foreground;"
@@ -81,8 +82,23 @@ public class PopupSubmenu extends JPanel {
     }
 
     public void show(Component com, int x, int y) {
-        popup.show(com, x, y);
+        if (menu.getComponentOrientation().isLeftToRight()) {
+            popup.show(com, x, y);
+        } else {
+            int px = getPreferredSize().width + UIScale.scale(5);
+            popup.show(com, -px, y);
+        }
+        applyAlignment();
         SwingUtilities.updateComponentTreeUI(popup);
+    }
+
+    private void applyAlignment() {
+        setComponentOrientation(menu.getComponentOrientation());
+        for (Component c : getComponents()) {
+            if (c instanceof JButton) {
+                ((JButton) c).setHorizontalAlignment(menu.getComponentOrientation().isLeftToRight() ? JButton.LEFT : JButton.RIGHT);
+            }
+        }
     }
 
     protected void setSelectedIndex(int index) {
@@ -105,13 +121,14 @@ public class PopupSubmenu extends JPanel {
         int ssubMenuLeftGap = UIScale.scale(subMenuLeftGap);
         Path2D.Double p = new Path2D.Double();
         int last = getComponent(getComponentCount() - 1).getY() + (ssubMenuItemHeight / 2);
+        boolean ltr = getComponentOrientation().isLeftToRight();
         int round = UIScale.scale(10);
-        int x = ssubMenuLeftGap - round;
+        int x = ltr ? (ssubMenuLeftGap - round) : (getWidth() - (ssubMenuLeftGap - round));
         p.moveTo(x, 0);
         p.lineTo(x, last - round);
         for (int i = 0; i < getComponentCount(); i++) {
             int com = getComponent(i).getY() + (ssubMenuItemHeight / 2);
-            p.append(createCurve(round, x, com), false);
+            p.append(createCurve(round, x, com, ltr), false);
         }
         g2.setColor(getForeground());
         g2.setStroke(new BasicStroke(UIScale.scale(1f)));
@@ -119,10 +136,10 @@ public class PopupSubmenu extends JPanel {
         g2.dispose();
     }
 
-    private Shape createCurve(int round, int x, int y) {
+    private Shape createCurve(int round, int x, int y, boolean ltr) {
         Path2D p2 = new Path2D.Double();
         p2.moveTo(x, y - round);
-        p2.curveTo(x, y - round, x, y, x + round, y);
+        p2.curveTo(x, y - round, x, y, x + (ltr ? round : -round), y);
         return p2;
     }
 
@@ -167,10 +184,11 @@ public class PopupSubmenu extends JPanel {
         @Override
         public void layoutContainer(Container parent) {
             synchronized (parent.getTreeLock()) {
+                boolean ltr = parent.getComponentOrientation().isLeftToRight();
                 Insets insets = parent.getInsets();
                 int ssubMenuLeftGap = UIScale.scale(subMenuLeftGap);
                 int ssubMenuItemHeight = UIScale.scale(subMenuItemHeight);
-                int x = insets.left + ssubMenuLeftGap;
+                int x = insets.left + (ltr ? ssubMenuLeftGap : 0);
                 int y = insets.top;
                 int width = getMaxWidth(parent);
                 int size = parent.getComponentCount();

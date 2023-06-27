@@ -5,6 +5,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.UIScale;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -36,7 +37,7 @@ public class MainForm extends JLayeredPane {
         setLayout(new MainFormLayout());
         menu = new Menu();
         panelBody = new JPanel(new BorderLayout());
-        menuButton = new JButton(new FlatSVGIcon("raven/icon/svg/menu_left.svg", 0.8f));
+        initMenuArrowIcon();
         menuButton.putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Menu.button.background;"
                 + "arc:999;"
@@ -50,6 +51,20 @@ public class MainForm extends JLayeredPane {
         add(menuButton);
         add(menu);
         add(panelBody);
+    }
+
+    @Override
+    public void applyComponentOrientation(ComponentOrientation o) {
+        super.applyComponentOrientation(o);
+        initMenuArrowIcon();
+    }
+
+    private void initMenuArrowIcon() {
+        if (menuButton == null) {
+            menuButton = new JButton();
+        }
+        String icon = (getComponentOrientation().isLeftToRight()) ? "menu_left.svg" : "menu_right.svg";
+        menuButton.setIcon(new FlatSVGIcon("raven/icon/svg/" + icon, 0.8f));
     }
 
     private void initMenuEvent() {
@@ -74,7 +89,12 @@ public class MainForm extends JLayeredPane {
     }
 
     private void setMenuFull(boolean full) {
-        String icon = full ? "menu_left.svg" : "menu_right.svg";
+        String icon;
+        if (getComponentOrientation().isLeftToRight()) {
+            icon = (full) ? "menu_left.svg" : "menu_right.svg";
+        } else {
+            icon = (full) ? "menu_right.svg" : "menu_left.svg";
+        }
         menuButton.setIcon(new FlatSVGIcon("raven/icon/svg/" + icon, 0.8f));
         menu.setMenuFull(full);
         revalidate();
@@ -126,22 +146,28 @@ public class MainForm extends JLayeredPane {
         @Override
         public void layoutContainer(Container parent) {
             synchronized (parent.getTreeLock()) {
+                boolean ltr = parent.getComponentOrientation().isLeftToRight();
                 Insets insets = UIScale.scale(parent.getInsets());
                 int x = insets.left;
                 int y = insets.top;
                 int width = parent.getWidth() - (insets.left + insets.right);
                 int height = parent.getHeight() - (insets.top + insets.bottom);
                 int menuWidth = UIScale.scale(menu.isMenuFull() ? menu.getMenuMaxWidth() : menu.getMenuMinWidth());
-                menu.setBounds(x, y, menuWidth, height);
+                int menuX = ltr ? x : x + width - menuWidth;
+                menu.setBounds(menuX, y, menuWidth, height);
                 int menuButtonWidth = menuButton.getPreferredSize().width;
                 int menuButtonHeight = menuButton.getPreferredSize().height;
-                int menuX = (int) (x + menuWidth - (menuButtonWidth * (menu.isMenuFull() ? 0.5f : 0.3f)));
-                menuButton.setBounds(menuX, UIScale.scale(30), menuButtonWidth, menuButtonHeight);
-
+                int menubX;
+                if (ltr) {
+                    menubX = (int) (x + menuWidth - (menuButtonWidth * (menu.isMenuFull() ? 0.5f : 0.3f)));
+                } else {
+                    menubX = (int) (menuX - (menuButtonWidth * (menu.isMenuFull() ? 0.5f : 0.7f)));
+                }
+                menuButton.setBounds(menubX, UIScale.scale(30), menuButtonWidth, menuButtonHeight);
                 int gap = UIScale.scale(5);
                 int bodyWidth = width - menuWidth - gap;
                 int bodyHeight = height;
-                int bodyx = x + menuWidth + gap;
+                int bodyx = ltr ? (x + menuWidth + gap) : x;
                 int bodyy = y;
                 panelBody.setBounds(bodyx, bodyy, bodyWidth, bodyHeight);
             }

@@ -91,7 +91,7 @@ public class MenuItem extends JPanel {
                 + "foreground:$Menu.lineColor");
         for (int i = 0; i < menus.length; i++) {
             JButton menuItem = createButtonItem(menus[i]);
-            menuItem.setHorizontalAlignment(JButton.LEFT);
+            menuItem.setHorizontalAlignment(menuItem.getComponentOrientation().isLeftToRight() ? JButton.LEADING : JButton.TRAILING);
             if (i == 0) {
                 menuItem.setIcon(getIcon());
                 menuItem.addActionListener((ActionEvent e) -> {
@@ -99,7 +99,7 @@ public class MenuItem extends JPanel {
                         if (menu.isMenuFull()) {
                             MenuAnimation.animate(MenuItem.this, !menuShow);
                         } else {
-                            popup.show(MenuItem.this, (int) (UIScale.scale(menu.getMenuMinWidth()) * 0.8f), UIScale.scale(menuItemHeight) / 2);
+                            popup.show(MenuItem.this, (int) MenuItem.this.getWidth() + UIScale.scale(5), UIScale.scale(menuItemHeight) / 2);
                         }
                     } else {
                         menu.runEvent(menuIndex, 0);
@@ -113,7 +113,7 @@ public class MenuItem extends JPanel {
             }
             add(menuItem);
         }
-        popup = new PopupSubmenu(menu, menuIndex, menus, events);
+        popup = new PopupSubmenu(getComponentOrientation(), menu, menuIndex, menus, events);
     }
 
     protected void setSelectedIndex(int index) {
@@ -161,7 +161,7 @@ public class MenuItem extends JPanel {
                 if (com instanceof JButton) {
                     JButton button = (JButton) com;
                     button.setText(menus[i]);
-                    button.setHorizontalAlignment(JButton.LEFT);
+                    button.setHorizontalAlignment(getComponentOrientation().isLeftToRight() ? JButton.LEFT : JButton.RIGHT);
                 }
             }
         } else {
@@ -189,13 +189,14 @@ public class MenuItem extends JPanel {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             Path2D.Double p = new Path2D.Double();
             int last = getComponent(getComponentCount() - 1).getY() + (ssubMenuItemHeight / 2);
+            boolean ltr = getComponentOrientation().isLeftToRight();
             int round = UIScale.scale(10);
-            int x = ssubMenuLeftGap - round;
+            int x = ltr ? (ssubMenuLeftGap - round) : (getWidth() - (ssubMenuLeftGap - round));
             p.moveTo(x, smenuItemHeight + sfirstGap);
             p.lineTo(x, last - round);
             for (int i = 1; i < getComponentCount(); i++) {
                 int com = getComponent(i).getY() + (ssubMenuItemHeight / 2);
-                p.append(createCurve(round, x, com), false);
+                p.append(createCurve(round, x, com, ltr), false);
             }
             g2.setColor(getForeground());
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
@@ -214,11 +215,12 @@ public class MenuItem extends JPanel {
             g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
             g2.setColor(FlatUIUtils.getUIColor("Menu.arrowColor", getForeground()));
             int smenuItemHeight = UIScale.scale(menuItemHeight);
+            boolean ltr = getComponentOrientation().isLeftToRight();
             g2.setStroke(new BasicStroke(UIScale.scale(1f)));
             if (menu.isMenuFull()) {
                 int arrowWidth = UIScale.scale(10);
                 int arrowHeight = UIScale.scale(5);
-                int ax = getWidth() - arrowWidth * 2;
+                int ax = ltr ? (getWidth() - arrowWidth * 2) : arrowWidth;
                 int ay = (smenuItemHeight - arrowHeight) / 2;
                 Path2D p = new Path2D.Double();
                 p.moveTo(0, animate * arrowHeight);
@@ -229,12 +231,18 @@ public class MenuItem extends JPanel {
             } else {
                 int arrowWidth = UIScale.scale(4);
                 int arrowHeight = UIScale.scale(8);
-                int ax = getWidth() - arrowWidth - UIScale.scale(3);
+                int ax = ltr ? (getWidth() - arrowWidth - UIScale.scale(3)) : UIScale.scale(3);
                 int ay = (smenuItemHeight - arrowHeight) / 2;
                 Path2D p = new Path2D.Double();
-                p.moveTo(0, 0);
-                p.lineTo(arrowWidth, arrowHeight / 2);
-                p.lineTo(0, arrowHeight);
+                if (ltr) {
+                    p.moveTo(0, 0);
+                    p.lineTo(arrowWidth, arrowHeight / 2);
+                    p.lineTo(0, arrowHeight);
+                } else {
+                    p.moveTo(arrowWidth, 0);
+                    p.lineTo(0, arrowHeight / 2);
+                    p.lineTo(arrowWidth, arrowHeight);
+                }
                 g2.translate(ax, ay);
                 g2.draw(p);
             }
@@ -242,10 +250,10 @@ public class MenuItem extends JPanel {
         }
     }
 
-    private Shape createCurve(int round, int x, int y) {
+    private Shape createCurve(int round, int x, int y, boolean ltr) {
         Path2D p2 = new Path2D.Double();
         p2.moveTo(x, y - round);
-        p2.curveTo(x, y - round, x, y, x + round, y);
+        p2.curveTo(x, y - round, x, y, x + (ltr ? round : -round), y);
         return p2;
     }
 
@@ -294,6 +302,7 @@ public class MenuItem extends JPanel {
         @Override
         public void layoutContainer(Container parent) {
             synchronized (parent.getTreeLock()) {
+                boolean ltr = parent.getComponentOrientation().isLeftToRight();
                 Insets insets = parent.getInsets();
                 int x = insets.left;
                 int y = insets.top;
@@ -309,8 +318,9 @@ public class MenuItem extends JPanel {
                             y += smenuItemHeight + sfirstGap;
                         } else {
                             int ssubMenuLeftGap = UIScale.scale(subMenuLeftGap);
+                            int subMenuX = ltr ? ssubMenuLeftGap : 0;
                             int ssubMenuItemHeight = UIScale.scale(subMenuItemHeight);
-                            com.setBounds(x + ssubMenuLeftGap, y, width - ssubMenuLeftGap, ssubMenuItemHeight);
+                            com.setBounds(x + subMenuX, y, width - ssubMenuLeftGap, ssubMenuItemHeight);
                             y += ssubMenuItemHeight;
                         }
                     }
