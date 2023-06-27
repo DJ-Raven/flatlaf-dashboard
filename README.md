@@ -64,3 +64,4 @@ menu.addMenuEvent(new MenuEvent() {
 - [31-05-2023] Update add login form
 - [31-05-2023] Update selection menu background and add method selected menu by index and subIndex
 - [17-06-2023] Update add [Toast Notifications](https://github.com/DJ-Raven/swing-toast-notifications.git)
+- [27-06-2023] Update add menu font properties for menu item and menu label `Menu.item.font` and `Menu.label.font`
