@@ -113,7 +113,7 @@ public class MenuItem extends JPanel {
             }
             add(menuItem);
         }
-        popup = new PopupSubmenu(getComponentOrientation(), menu, menuIndex, menus, events);
+        popup = new PopupSubmenu(getComponentOrientation(), menu, menuIndex, menus);
     }
 
     protected void setSelectedIndex(int index) {

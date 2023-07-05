@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import raven.menu.mode.ToolBarAccentColor;
 
 /**
  *
@@ -58,6 +59,7 @@ public class Menu extends JPanel {
             }
         }
         lightDarkMode.setMenuFull(menuFull);
+        toolBarAccentColor.setMenuFull(menuFull);
     }
 
     private final List<MenuEvent> events = new ArrayList<>();
@@ -107,9 +109,11 @@ public class Menu extends JPanel {
                 + "thumb:$Menu.ScrollBar.thumb");
         createMenu();
         lightDarkMode = new LightDarkMode();
+        toolBarAccentColor = new ToolBarAccentColor(this);
         add(header);
         add(scroll);
         add(lightDarkMode);
+        add(toolBarAccentColor);
     }
 
     private void createMenu() {
@@ -200,6 +204,7 @@ public class Menu extends JPanel {
     private JScrollPane scroll;
     private JPanel panelMenu;
     private LightDarkMode lightDarkMode;
+    private ToolBarAccentColor toolBarAccentColor;
 
     private class MenuLayout implements LayoutManager {
 
@@ -240,19 +245,25 @@ public class Menu extends JPanel {
                 int hgap = menuFull ? sheaderFullHgap : 0;
                 header.setBounds(x + hgap, y, iconWidth - (hgap * 2), iconHeight);
 
-                int ldgap = 10;
+                int ldgap = UIScale.scale(10);
                 int ldWidth = width - ldgap * 2;
                 int ldHeight = lightDarkMode.getPreferredSize().height;
                 int ldx = x + ldgap;
-                int ldy = y + height - ldHeight - ldgap;
+                int ldy = y + height - ldHeight - ldgap - gap - toolBarAccentColor.getPreferredSize().height;
 
                 int menux = x;
                 int menuy = y + iconHeight + gap;
                 int menuWidth = width;
-                int menuHeight = height - (iconHeight + gap) - (ldHeight + ldgap * 2);
+                int menuHeight = height - (iconHeight + gap) - (ldHeight + ldgap * 2) - (toolBarAccentColor.getPreferredSize().height + gap);
                 scroll.setBounds(menux, menuy, menuWidth, menuHeight);
 
                 lightDarkMode.setBounds(ldx, ldy, ldWidth, ldHeight);
+
+                int tbheight = toolBarAccentColor.getPreferredSize().height;
+                int tbwidth = Math.min(toolBarAccentColor.getPreferredSize().width, ldWidth);
+                int tby = y + height - tbheight - ldgap;
+                int tbx = ldx + ((ldWidth - tbwidth) / 2);
+                toolBarAccentColor.setBounds(tbx, tby, tbwidth, tbheight);
             }
         }
     }

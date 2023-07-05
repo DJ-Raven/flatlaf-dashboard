@@ -15,7 +15,6 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Path2D;
-import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -28,18 +27,16 @@ import javax.swing.SwingUtilities;
 public class PopupSubmenu extends JPanel {
 
     private final Menu menu;
-    private final List<MenuEvent> events;
     private final int menuIndex;
     private final int subMenuLeftGap = 20;
     private final int subMenuItemHeight = 30;
     private final String menus[];
     private JPopupMenu popup;
 
-    public PopupSubmenu(ComponentOrientation orientation, Menu menu, int menuIndex, String menus[], List<MenuEvent> events) {
+    public PopupSubmenu(ComponentOrientation orientation, Menu menu, int menuIndex, String menus[]) {
         this.menu = menu;
         this.menuIndex = menuIndex;
         this.menus = menus;
-        this.events = events;
         applyComponentOrientation(orientation);
         init();
     }
