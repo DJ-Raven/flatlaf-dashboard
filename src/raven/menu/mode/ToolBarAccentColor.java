@@ -45,8 +45,7 @@ public class ToolBarAccentColor extends JPanel {
             add(selectedButton);
             popup.add(toolbar);
         }
-        repaint();
-        revalidate();
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     private final String[] accentColorKeys = {

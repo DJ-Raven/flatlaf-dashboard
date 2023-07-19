@@ -80,16 +80,16 @@ public class LightDarkMode extends JPanel {
                     FlatAnimatedLafChange.showSnapshot();
                     FlatDarculaLaf.setup();
                     FlatLaf.updateUI();
-                    FlatAnimatedLafChange.hideSnapshotWithAnimation();
                     checkStyle();
+                    FlatAnimatedLafChange.hideSnapshotWithAnimation();
                 });
             } else {
                 EventQueue.invokeLater(() -> {
                     FlatAnimatedLafChange.showSnapshot();
                     FlatIntelliJLaf.setup();
                     FlatLaf.updateUI();
-                    FlatAnimatedLafChange.hideSnapshotWithAnimation();
                     checkStyle();
+                    FlatAnimatedLafChange.hideSnapshotWithAnimation();
                 });
             }
         }
