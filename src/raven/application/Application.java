@@ -3,10 +3,12 @@ package raven.application;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import raven.application.form.LoginForm;
 import raven.application.form.MainForm;
 import raven.toast.Notifications;
@@ -23,7 +25,7 @@ public class Application extends javax.swing.JFrame {
 
     public Application() {
         initComponents();
-        setSize(new Dimension(1200, 768));
+        setSize(new Dimension(1366, 768));
         setLocationRelativeTo(null);
         mainForm = new MainForm();
         loginForm = new LoginForm();
@@ -80,7 +82,9 @@ public class Application extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
+        FlatRobotoFont.install();
         FlatLaf.registerCustomDefaultsSource("raven.theme");
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         FlatDarculaLaf.setup();
         java.awt.EventQueue.invokeLater(() -> {
             app = new Application();

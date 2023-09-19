@@ -32,7 +32,7 @@ public class Menu extends JPanel {
         {"Calendar"},
         {"~COMPONENT~"},
         {"Advanced UI", "Cropper", "Owl Carousel", "Sweet Alert"},
-        {"Forms", "Basic Elements", "Advanced Elements", "SEditors", "Wizard"},
+        {"Forms", "Basic Elements", "Advanced Elements", "Editors", "Wizard"},
         {"~OTHER~"},
         {"Charts", "Apex", "Flot", "Peity", "Sparkline"},
         {"Icons", "Feather Icons", "Flag Icons", "Mdi Icons"},
