@@ -2,6 +2,7 @@ package raven.menu;
 
 import raven.menu.mode.LightDarkMode;
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.ui.FlatUIUtils;
 import com.formdev.flatlaf.util.UIScale;
 import java.awt.Component;
 import java.awt.Container;
@@ -110,6 +111,7 @@ public class Menu extends JPanel {
         createMenu();
         lightDarkMode = new LightDarkMode();
         toolBarAccentColor = new ToolBarAccentColor(this);
+        toolBarAccentColor.setVisible(FlatUIUtils.getUIBoolean("AccentControl.show", false));
         add(header);
         add(scroll);
         add(lightDarkMode);
@@ -243,27 +245,33 @@ public class Menu extends JPanel {
                 int iconWidth = width;
                 int iconHeight = header.getPreferredSize().height;
                 int hgap = menuFull ? sheaderFullHgap : 0;
-                header.setBounds(x + hgap, y, iconWidth - (hgap * 2), iconHeight);
+                int accentColorHeight = 0;
+                if (toolBarAccentColor.isVisible()) {
+                    accentColorHeight = toolBarAccentColor.getPreferredSize().height+gap;
+                }
 
+                header.setBounds(x + hgap, y, iconWidth - (hgap * 2), iconHeight);
                 int ldgap = UIScale.scale(10);
                 int ldWidth = width - ldgap * 2;
                 int ldHeight = lightDarkMode.getPreferredSize().height;
                 int ldx = x + ldgap;
-                int ldy = y + height - ldHeight - ldgap - gap - toolBarAccentColor.getPreferredSize().height;
+                int ldy = y + height - ldHeight - ldgap  - accentColorHeight;
 
                 int menux = x;
                 int menuy = y + iconHeight + gap;
                 int menuWidth = width;
-                int menuHeight = height - (iconHeight + gap) - (ldHeight + ldgap * 2) - (toolBarAccentColor.getPreferredSize().height + gap);
+                int menuHeight = height - (iconHeight + gap) - (ldHeight + ldgap * 2) - (accentColorHeight);
                 scroll.setBounds(menux, menuy, menuWidth, menuHeight);
 
                 lightDarkMode.setBounds(ldx, ldy, ldWidth, ldHeight);
 
-                int tbheight = toolBarAccentColor.getPreferredSize().height;
-                int tbwidth = Math.min(toolBarAccentColor.getPreferredSize().width, ldWidth);
-                int tby = y + height - tbheight - ldgap;
-                int tbx = ldx + ((ldWidth - tbwidth) / 2);
-                toolBarAccentColor.setBounds(tbx, tby, tbwidth, tbheight);
+                if (toolBarAccentColor.isVisible()) {
+                    int tbheight = toolBarAccentColor.getPreferredSize().height;
+                    int tbwidth = Math.min(toolBarAccentColor.getPreferredSize().width, ldWidth);
+                    int tby = y + height - tbheight - ldgap;
+                    int tbx = ldx + ((ldWidth - tbwidth) / 2);
+                    toolBarAccentColor.setBounds(tbx, tby, tbwidth, tbheight);
+                }
             }
         }
     }
