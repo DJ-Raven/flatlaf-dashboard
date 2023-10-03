@@ -1,11 +1,11 @@
 package raven.menu.mode;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -56,7 +56,8 @@ public class LightDarkMode extends JPanel {
                 + "background:$Menu.lightdark.button.background;"
                 + "foreground:$Menu.foreground;"
                 + "focusWidth:0;"
-                + "borderWidth:0");
+                + "borderWidth:0;"
+                + "innerFocusWidth:0");
         buttonLighDark.addActionListener((ActionEvent e) -> {
             changeMode(!FlatLaf.isLafDark());
         });
@@ -78,7 +79,7 @@ public class LightDarkMode extends JPanel {
             if (dark) {
                 EventQueue.invokeLater(() -> {
                     FlatAnimatedLafChange.showSnapshot();
-                    FlatDarculaLaf.setup();
+                    FlatMacDarkLaf.setup();
                     FlatLaf.updateUI();
                     checkStyle();
                     FlatAnimatedLafChange.hideSnapshotWithAnimation();
@@ -86,7 +87,7 @@ public class LightDarkMode extends JPanel {
             } else {
                 EventQueue.invokeLater(() -> {
                     FlatAnimatedLafChange.showSnapshot();
-                    FlatIntelliJLaf.setup();
+                    FlatMacLightLaf.setup();
                     FlatLaf.updateUI();
                     checkStyle();
                     FlatAnimatedLafChange.hideSnapshotWithAnimation();
@@ -113,7 +114,8 @@ public class LightDarkMode extends JPanel {
                     + "background:$Menu.lightdark.button.background;"
                     + "foreground:$Menu.foreground;"
                     + "focusWidth:0;"
-                    + "borderWidth:0");
+                    + "borderWidth:0;"
+                    + "innerFocusWidth:0");
         } else {
             button.putClientProperty(FlatClientProperties.STYLE, ""
                     + "arc:999;"
@@ -121,6 +123,7 @@ public class LightDarkMode extends JPanel {
                     + "foreground:$Menu.foreground;"
                     + "focusWidth:0;"
                     + "borderWidth:0;"
+                    + "innerFocusWidth:0;"
                     + "background:null");
         }
     }
